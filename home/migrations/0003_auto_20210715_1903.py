@@ -8,26 +8,30 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('home', '0002_app_plan_subscription'),
+        ("home", "0002_app_plan_subscription"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='app',
-            name='subscription',
+            model_name="app",
+            name="subscription",
         ),
         migrations.AddField(
-            model_name='app',
-            name='subscription',
-            field=models.ManyToManyField(blank=True, related_name='app_subscription', to='home.Subscription'),
+            model_name="app",
+            name="subscription",
+            field=models.ManyToManyField(
+                blank=True, related_name="app_subscription", to="home.Subscription"
+            ),
         ),
         migrations.RemoveField(
-            model_name='app',
-            name='user',
+            model_name="app",
+            name="user",
         ),
         migrations.AddField(
-            model_name='app',
-            name='user',
-            field=models.ManyToManyField(blank=True, related_name='app_user', to=settings.AUTH_USER_MODEL),
+            model_name="app",
+            name="user",
+            field=models.ManyToManyField(
+                blank=True, related_name="app_user", to=settings.AUTH_USER_MODEL
+            ),
         ),
     ]

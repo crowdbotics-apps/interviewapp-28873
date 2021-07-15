@@ -56,13 +56,25 @@ class Plan(models.Model):
 
 class Subscription(models.Model):
     "Generated Model"
-    user = models.IntegerField()
-    plan = models.IntegerField()
-    app = models.IntegerField()
     active = models.BooleanField()
     created_at = models.DateTimeField(
         auto_now_add=True,
     )
     updated_at = models.DateTimeField(
         auto_now=True,
+    )
+    user = models.ManyToManyField(
+        "users.User",
+        blank=True,
+        related_name="subscription_user",
+    )
+    plan = models.ManyToManyField(
+        "home.Plan",
+        blank=True,
+        related_name="subscription_plan",
+    )
+    app = models.ManyToManyField(
+        "home.App",
+        blank=True,
+        related_name="subscription_app",
     )
