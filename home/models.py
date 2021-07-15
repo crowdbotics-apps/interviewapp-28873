@@ -18,13 +18,21 @@ class App(models.Model):
         max_length=50,
     )
     screenshot = models.URLField()
-    subscription = models.IntegerField()
-    user = models.IntegerField()
     created_at = models.DateTimeField(
         auto_now_add=True,
     )
     updated_at = models.DateTimeField(
         auto_now=True,
+    )
+    subscription = models.ManyToManyField(
+        "home.Subscription",
+        blank=True,
+        related_name="app_subscription",
+    )
+    user = models.ManyToManyField(
+        "users.User",
+        blank=True,
+        related_name="app_user",
     )
 
 

@@ -8,47 +8,71 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('home', '0001_load_initial_data'),
+        ("home", "0001_load_initial_data"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='App',
+            name="App",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
-                ('description', models.TextField()),
-                ('type', models.CharField(max_length=20)),
-                ('framework', models.CharField(max_length=30)),
-                ('domain_name', models.CharField(max_length=50)),
-                ('screenshot', models.URLField()),
-                ('subscription', models.IntegerField()),
-                ('user', models.IntegerField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
+                ("description", models.TextField()),
+                ("type", models.CharField(max_length=20)),
+                ("framework", models.CharField(max_length=30)),
+                ("domain_name", models.CharField(max_length=50)),
+                ("screenshot", models.URLField()),
+                ("subscription", models.IntegerField()),
+                ("user", models.IntegerField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Plan',
+            name="Plan",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=20)),
-                ('description', models.TextField()),
-                ('price', models.DecimalField(decimal_places=2, max_digits=30)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=20)),
+                ("description", models.TextField()),
+                ("price", models.DecimalField(decimal_places=2, max_digits=30)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Subscription',
+            name="Subscription",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('user', models.IntegerField()),
-                ('plan', models.IntegerField()),
-                ('app', models.IntegerField()),
-                ('active', models.BooleanField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("user", models.IntegerField()),
+                ("plan", models.IntegerField()),
+                ("app", models.IntegerField()),
+                ("active", models.BooleanField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
             ],
         ),
     ]
