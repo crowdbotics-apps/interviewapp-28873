@@ -24,15 +24,14 @@ class App(models.Model):
     updated_at = models.DateTimeField(
         auto_now=True,
     )
-    subscription = models.ManyToManyField(
-        "home.Subscription",
-        blank=True,
-        related_name="app_subscription",
-    )
     user = models.ManyToManyField(
         "users.User",
         blank=True,
         related_name="app_user",
+    )
+    subscription = models.IntegerField(
+        null=True,
+        blank=True,
     )
 
 

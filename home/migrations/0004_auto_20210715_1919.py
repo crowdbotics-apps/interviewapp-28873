@@ -8,35 +8,43 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('home', '0003_auto_20210715_1903'),
+        ("home", "0003_auto_20210715_1903"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='subscription',
-            name='app',
+            model_name="subscription",
+            name="app",
         ),
         migrations.AddField(
-            model_name='subscription',
-            name='app',
-            field=models.ManyToManyField(blank=True, related_name='subscription_app', to='home.App'),
+            model_name="subscription",
+            name="app",
+            field=models.ManyToManyField(
+                blank=True, related_name="subscription_app", to="home.App"
+            ),
         ),
         migrations.RemoveField(
-            model_name='subscription',
-            name='plan',
+            model_name="subscription",
+            name="plan",
         ),
         migrations.AddField(
-            model_name='subscription',
-            name='plan',
-            field=models.ManyToManyField(blank=True, related_name='subscription_plan', to='home.Plan'),
+            model_name="subscription",
+            name="plan",
+            field=models.ManyToManyField(
+                blank=True, related_name="subscription_plan", to="home.Plan"
+            ),
         ),
         migrations.RemoveField(
-            model_name='subscription',
-            name='user',
+            model_name="subscription",
+            name="user",
         ),
         migrations.AddField(
-            model_name='subscription',
-            name='user',
-            field=models.ManyToManyField(blank=True, related_name='subscription_user', to=settings.AUTH_USER_MODEL),
+            model_name="subscription",
+            name="user",
+            field=models.ManyToManyField(
+                blank=True,
+                related_name="subscription_user",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]
