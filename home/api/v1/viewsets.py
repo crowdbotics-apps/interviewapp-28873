@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
 from home.models import App, Plan, Subscription
 from .serializers import AppSerializer, PlanSerializer, SubscriptionSerializer
 from rest_framework import authentication
@@ -43,7 +43,9 @@ class AppViewSet(viewsets.ModelViewSet):
     queryset = App.objects.all()
 
 
-class PlanViewSet(viewsets.ModelViewSet):
+class PlanViewSet(mixins.ListModelMixin,
+                  mixins.RetrieveModelMixin,
+                  viewsets.GenericViewSet):
     serializer_class = PlanSerializer
     authentication_classes = (
         authentication.SessionAuthentication,
@@ -52,7 +54,11 @@ class PlanViewSet(viewsets.ModelViewSet):
     queryset = Plan.objects.all()
 
 
-class SubscriptionViewSet(viewsets.ModelViewSet):
+class SubscriptionViewSet(mixins.CreateModelMixin,
+                          mixins.UpdateModelMixin,
+                          mixins.ListModelMixin,
+                          mixins.RetrieveModelMixin,
+                          viewsets.GenericViewSet):
     serializer_class = SubscriptionSerializer
     authentication_classes = (
         authentication.SessionAuthentication,

@@ -10,7 +10,6 @@ from allauth.account.utils import setup_user_email
 from rest_framework import serializers
 from rest_auth.serializers import PasswordResetSerializer
 
-
 User = get_user_model()
 
 
@@ -29,9 +28,9 @@ class SignupSerializer(serializers.ModelSerializer):
     def _get_request(self):
         request = self.context.get("request")
         if (
-            request
-            and not isinstance(request, HttpRequest)
-            and hasattr(request, "_request")
+                request
+                and not isinstance(request, HttpRequest)
+                and hasattr(request, "_request")
         ):
             request = request._request
         return request
@@ -81,6 +80,25 @@ class AppSerializer(serializers.ModelSerializer):
         model = App
         fields = "__all__"
 
+    def create(self, validated_data):
+        new_app = App.objects.create(**validated_data)
+
+        # update user who created app
+        user = self.context['request'].user
+        new_app.user = user.id
+        new_app.save()
+
+        # assign to default free plan so create subscription
+        # free_plan = Plan.objects.get(id=1)
+        # subscription = Subscription.objects.create({
+        #     'plan': free_plan.id,
+        #     'active': True,
+        #     'app': new_app.id
+        # })
+        # subscription.save()
+
+        return new_app
+
 
 class PlanSerializer(serializers.ModelSerializer):
     class Meta:
@@ -92,3 +110,40 @@ class SubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscription
         fields = "__all__"
+
+    def create(self, validated_data):
+        # check if app already has a subscription
+        if Subscription.objects.filter(app=validated_data['app']).exists():
+            raise serializers.ValidationError("Subscription already exists for this app.")
+
+        new_subscription = Subscription.objects.create(**validated_data)
+
+        # not sure which user to assign here
+        # the one who owns the app or from the session which might be different
+        # app_owner_id = App.objects.get(id=validated_data['app'])
+
+        # update user who owns app assume he/she is in session
+        user = self.context['request'].user
+        new_subscription.user = user.id
+        new_subscription.save()
+
+        # update app subscriptions status
+        app = App.objects.get(id=validated_data['app'])
+        app.subscription = new_subscription.id
+        app.save()
+
+        return new_subscription
+
+    def update(self, instance, validated_data):
+
+        # check if app already has a subscription and is not an instance
+        if Subscription.objects.filter(app=validated_data['app']).exists() and Subscription.objects.get(
+                app=validated_data['app']) != instance:
+            raise serializers.ValidationError("Subscription already exists for this app.")
+
+        instance.plan = validated_data['plan']
+        instance.active = validated_data['active']
+        instance.app = validated_data['app']
+        instance.save()
+
+        return instance
